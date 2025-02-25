@@ -1,3 +1,4 @@
+Отсечение 64
 Matrix size = 16
 | Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
 |--------------------------------------------------------------------------|

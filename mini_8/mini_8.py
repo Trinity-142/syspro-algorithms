@@ -2,7 +2,7 @@ from benchmarks import format_table
 import numpy as np
 import time
 import sys
-
+BOUND = 8
 def classic(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
     N = len(X)
     res = np.zeros((N, N))
@@ -14,7 +14,7 @@ def classic(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
 
 def recursive(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
     l = X.shape[0]
-    if l <= 64:
+    if l <= BOUND:
         return classic(X, Y)
     N = l
     N //= 2
@@ -27,7 +27,7 @@ def recursive(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
 
 def strassen(X: np.ndarray, Y: np.ndarray) -> np.ndarray:
     l = X.shape[0]
-    if l <= 64:
+    if l <= BOUND:
         return classic(X, Y)
     N = l
     N //= 2
@@ -57,7 +57,7 @@ def result(func, X, Y):
     geometric_mean = round(np.prod(res) ** (1 / res.shape[0]), 5)
     return [sample_mean, std, geometric_mean]
 
-with open("benchmarks.txt", "w") as f:
+with open("benchmarks_8.txt", "w") as f:
     start = time.time()
     sys.stdout = f
     for i in [16, 32, 64, 128, 256, 512, 1024]:
