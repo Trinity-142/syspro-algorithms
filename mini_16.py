@@ -1,5 +1,6 @@
 import pytest
 
+
 class Stack:
     def __init__(self):
         self.list = []
@@ -16,19 +17,23 @@ class Stack:
     def empty(self):
         return len(self.list) == 0
 
+
 operators = [('!', '~'), ('*', '/', '%'), ('+', '-'), ('<<', '>>'), '&', '^', '|', '&&', '||']
 r2l = [('!', '~')]
+
 
 def priority(operator: str) -> int:
     for i in range(len(operators)):
         if operator in operators[i]:
             return i
 
+
 def l2r(operator: str) -> bool:
     for i in range(len(r2l)):
         if operator in r2l[i]:
             return False
     return True
+
 
 def infix_to_rpn(expression: str) -> str:
     expression = expression.split()
@@ -55,7 +60,6 @@ def infix_to_rpn(expression: str) -> str:
         ans.append(stack.pop())
 
     return ' '.join(ans)
-
 
 
 @pytest.mark.parametrize("input_expr, expected_rpn", [
