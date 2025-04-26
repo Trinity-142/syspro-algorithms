@@ -41,7 +41,7 @@ if __name__ == '__main__':
             if f.lookup(other_ip) and other_ip not in ips:
                 fp += 1
 
-        memory = sys.getsizeof(f.bitset)
+        memory = sys.getsizeof(f.bitset) + sys.getsizeof(f.weights)
         print(f"Percent of FP: {fp / s}%\n"
               f"Memory used: {memory / 1024} KB\n"
               f"---------------------------------")
