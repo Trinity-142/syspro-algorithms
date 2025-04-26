@@ -1,22 +1,7 @@
 import math
 import random
+import sys
 from typing import Tuple
-
-from pympler import asizeof
-
-
-def next_prime(x):
-    while not is_prime(x):
-        x += 1
-    return x
-
-
-def is_prime(x):
-    if x < 2: return False
-    for i in range(2, int(math.sqrt(x)) + 1):
-        if x % i == 0:
-            return False
-    return True
 
 
 class BloomFilter:
@@ -26,7 +11,7 @@ class BloomFilter:
         self.e = e
         self.b = math.ceil(math.log(self.e, 1 / 2) / math.log(2))
         self.k = math.ceil(self.b * math.log(2))
-        self.n = next_prime(self.b * self.s)
+        self.n = self.b * self.s
         self.weights = [tuple(random.randint(0, self.n - 1) for _ in range(4)) for _ in range(self.k)]
 
     def _hash(self, i, ip: Tuple):
@@ -56,7 +41,7 @@ if __name__ == '__main__':
             if f.lookup(other_ip) and other_ip not in ips:
                 fp += 1
 
-        memory = asizeof.asizeof(f)
+        memory = sys.getsizeof(f.bitset)
         print(f"Percent of FP: {fp / s}%\n"
               f"Memory used: {memory / 1024} KB\n"
               f"---------------------------------")
