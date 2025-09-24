@@ -1,0 +1,42 @@
+Отсечение 64
+Matrix size = 16
+| Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
+|--------------------------------------------------------------------------|
+|  Classic  |      0.00363       |      0.00074       |      0.00357       |
+| Recursive |      0.00329       |      0.00047       |      0.00326       |
+| Strassen  |       0.0031       |       9e-05        |       0.0031       |
+
+Matrix size = 32
+| Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
+|--------------------------------------------------------------------------|
+|  Classic  |      0.03582       |      0.01292       |      0.03365       |
+| Recursive |      0.02822       |       0.0037       |      0.02799       |
+| Strassen  |      0.03306       |      0.00709       |       0.0324       |
+
+Matrix size = 64
+| Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
+|--------------------------------------------------------------------------|
+|  Classic  |      0.20665       |      0.00464       |       0.2066       |
+| Recursive |      0.19913       |      0.00292       |      0.19911       |
+| Strassen  |      0.19832       |      0.00186       |      0.19831       |
+
+Matrix size = 128
+| Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
+|--------------------------------------------------------------------------|
+|  Classic  |      1.59258       |      0.02485       |      1.59239       |
+| Recursive |      1.63726       |      0.05651       |      1.63628       |
+| Strassen  |      1.69756       |      0.37592       |      1.65782       |
+
+Matrix size = 256
+| Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
+|--------------------------------------------------------------------------|
+|  Classic  |      12.75968      |      0.41488       |      12.75313      |
+| Recursive |      12.51902      |      0.23556       |      12.51683      |
+| Strassen  |      9.63959       |      0.09992       |      9.63908       |
+
+Matrix size = 512
+| Algorithm |    Sample mean     | Standard deviation |   Geometric mean   |
+|--------------------------------------------------------------------------|
+|  Classic  |      99.6486       |      0.59481       |      99.64683      |
+| Recursive |      99.10467      |      0.37218       |      99.10397      |
+| Strassen  |      67.70751      |       0.2284       |      67.70713      |
