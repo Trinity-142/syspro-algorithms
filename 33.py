@@ -2,27 +2,16 @@ from typing import List
 
 import pytest
 
-
-class Representative:
-    number = None
-
-    def __init__(self, number):
-        self.number = number
-
-    def __eq__(self, other):
-        return self.number == other.number
-
-
 class UnionFind:
     def __init__(self, n):
-        self.parents: List[Representative] = [0] * (n + 1)
+        self.parents = [0] * (n + 1)
         for i in range(1, n + 1):
-            self.parents[i] = Representative(i)
+            self.parents[i] = i
 
-    def find(self, x) -> Representative:
+    def find(self, x):
         curr = x
-        while self.parents[curr].number != curr:
-            curr = self.parents[curr].number
+        while self.parents[curr] != curr:
+            curr = self.parents[curr]
 
         self.parents[x] = self.parents[curr]
         return self.parents[curr]
@@ -30,7 +19,7 @@ class UnionFind:
     def union(self, x, y):
         x_repr = self.find(x)
         y_repr = self.find(y)
-        self.parents[x_repr.number] = y_repr
+        self.parents[x_repr] = y_repr
 
 class Task:
     def __init__(self, number, deadline, penalty):
@@ -50,11 +39,12 @@ def solution(tasks: List[Task]):
         if schedule[task.deadline] == 0:
             schedule_index = task.deadline
         else:
-            schedule_index = unionfind.find(task.deadline).number
+            schedule_index = unionfind.find(task.deadline)
 
-        schedule[schedule_index] = task.number
         if schedule_index > task.deadline:
             overdue += 1
+
+        schedule[schedule_index] = task.number
         if schedule_index == 1:
             unionfind.union(schedule_index, schedule_index - 2)
         else:
