@@ -6,14 +6,10 @@ import pytest
 
 def count_topsorts_brute(tree):
     n = len(tree)
-    edges = [(u, v) for u in range(n) for v in tree[u]]
     count = 0
 
     for perm in permutations(range(n)):
-        topsort = [0] * n
-        for i, v in enumerate(perm):
-            topsort[i] = v
-        if all(topsort[u] < topsort[v] for u, v in edges):
+        if all(perm[u] < perm[v] for u in range(n) for v in tree[u]):
             count += 1
 
     return count
