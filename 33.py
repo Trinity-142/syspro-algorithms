@@ -2,24 +2,32 @@ from typing import List
 
 import pytest
 
+class Representative:
+    def __init__(self, number, size, left):
+        self.number = number
+        self.size = size
+        self.left = left
+
 class UnionFind:
     def __init__(self, n):
-        self.parents = [0] * (n + 1)
-        for i in range(1, n + 1):
-            self.parents[i] = i
+        self.parents = [Representative(i, 1, i) for i in range(n + 1)]
 
-    def find(self, x):
-        curr = x
-        while self.parents[curr] != curr:
-            curr = self.parents[curr]
-
-        self.parents[x] = self.parents[curr]
-        return self.parents[curr]
+    def find(self, x: int) -> Representative:
+        if self.parents[x].number == x: return self.parents[x]
+        new_parent = self.find(self.parents[x].number)
+        self.parents[x] = new_parent
+        return new_parent
 
     def union(self, x, y):
         x_repr = self.find(x)
         y_repr = self.find(y)
-        self.parents[x_repr] = y_repr
+
+        if x_repr.number == y_repr.number: return
+
+        parent, child = (x_repr, y_repr) if x_repr.size >= y_repr.size else (y_repr, x_repr)
+        parent.size += child.size
+        parent.left = min(parent.left, child.left)
+        self.parents[child.number] = parent
 
 class Task:
     def __init__(self, number, deadline, penalty):
@@ -31,24 +39,23 @@ class Task:
         return f'({self.number}, {self.deadline}, {self.penalty})'
 
 def solution(tasks: List[Task]):
-    schedule = [0] * (len(tasks) + 1)
-    unionfind = UnionFind(len(tasks))
+    n = len(tasks)
+    schedule = [0] * (n + 1)
+    unionfind = UnionFind(n)
     overdue = 0
     while tasks:
         task = tasks.pop()
         if schedule[task.deadline] == 0:
             schedule_index = task.deadline
         else:
-            schedule_index = unionfind.find(task.deadline)
-
+            schedule_index = unionfind.find(task.deadline).left
+            if schedule_index == 0:
+                schedule_index = unionfind.find(n).left
         if schedule_index > task.deadline:
             overdue += 1
 
         schedule[schedule_index] = task.number
-        if schedule_index == 1:
-            unionfind.union(schedule_index, schedule_index - 2)
-        else:
-            unionfind.union(schedule_index, schedule_index - 1)
+        unionfind.union(schedule_index, schedule_index - 1)
 
     return schedule[1:], overdue
 
