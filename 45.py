@@ -4,7 +4,7 @@ import random
 
 def naive_tsp(graph):
     n = len(graph)
-    path = []
+    m_path = []
     m = float('inf')
     for p in itertools.permutations(list(range(1, n))):
         path = [0] + list(p) + [0]
@@ -13,8 +13,8 @@ def naive_tsp(graph):
             dist += graph[path[i]][path[i + 1]]
         if dist < m:
             m = dist
-            path = list(p)
-    return m, path
+            m_path = path
+    return m, m_path
 
 
 def held_karp_tsp(graph):
@@ -24,11 +24,11 @@ def held_karp_tsp(graph):
     for m in range(2, n + 1):
         for s in range(1, 1 << n):
             if s.bit_count() != m or not (s & 1): continue
-            for v in range(n):
-                if not (s >> v) & 1 or v == 0: continue
+            for v in range(1, n):
+                if not (s >> v) & 1: continue
                 min_dist = float('inf')
                 for w in range(n):
-                    if not (s >> w) & 1: continue
+                    if not (s >> w) & 1 or w == v: continue
                     prev = s ^ (1 << v)
                     cost = A[w][prev] + graph[w][v]
                     if cost < min_dist:
@@ -66,7 +66,7 @@ if __name__ == '__main__':
                 weight = random.randint(1, 100)
                 graph[i][j] = weight
                 graph[j][i] = weight
-        # dist1, path1 = naive_tsp(graph)
-        # dist2, path2 = held_karp(graph)
-        # print(n, held_karp(graph), naive_tsp(graph), set(path1) == set(path2))
+        #dist1, path1 = naive_tsp(graph)
+        #dist2, path2 = held_karp_tsp(graph)
+        #print(n, held_karp_tsp(graph), naive_tsp(graph), set(path1) == set(path2))
         print(n, held_karp_tsp(graph))
